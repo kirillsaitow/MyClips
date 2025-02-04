@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мои игровые клипы</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ url_for('static', filename='background.mp4') }}" type="video/mp4">
+    </video>
+    
+    <header>
+        <h1>🎮 Лучшие моменты</h1>
+    </header>
+
+    <div class="container">
+        <ul>
+            {% for clip in clips %}
+                <li>
+                    <a href="/video/{{ clip }}">
+                        <img 
+                            src="{{ url_for('static', filename='thumbnails/' + clip.replace('.mp4', '.jpg')) }}" 
+                            alt="{{ clip }}" 
+                            class="thumbnail"
+                        >
+                        <span class="clip-title">{{ clip.replace('.mp4', '') }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <footer>
+        Создано с ❤️ | Домашний игровой архив
+    </footer>
+</body>
+  </html>
