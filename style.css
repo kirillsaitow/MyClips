@@ -1,0 +1,100 @@
+/* Основные стили */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #ffffff;
+    background-color: #1a1a1a;
+}
+
+/* Фоновое видео */
+#bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+/* Шапка */
+header {
+    background: linear-gradient(90deg, #ff6f61 0%, #ff3b2f 100%);
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(255, 111, 97, 0.3);
+}
+
+h1 {
+    margin: 0;
+    font-size: 2.8em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Контейнер с клипами */
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(40, 40, 40, 0.9);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+/* Карточки клипов */
+li {
+    transition: transform 0.3s;
+}
+
+li:hover {
+    transform: translateY(-5px);
+}
+
+.thumbnail {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #ff6f61;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.clip-title {
+    display: block;
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: #fff;
+    text-align: center;
+}
+
+/* Ссылки */
+a {
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* Подвал */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: rgba(51, 51, 51, 0.9);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-size: 0.9em;
+    color: #888;
+}
