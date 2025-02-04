@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мои игровые клипы</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Фоновое видео -->
+    <video autoplay muted loop id="bg-video">
+        <source src="{{ url_for('static', filename='background.mp4') }}" type="video/mp4">
+    </video>
+
+    <!-- Шапка сайта -->
+    <header>
+        <h1>🎮 Лучшие моменты</h1>
+    </header>
+
+    <!-- Контейнер с клипами -->
+    <div class="container">
+        <ul>
+            {% for clip in clips %}
+                <li>
+                    <a href="#" onclick="openVideo('{{ clip }}')">
+                        <img
+                            src="{{ url_for('static', filename='thumbnails/' + clip.replace('.mp4', '.jpg')) }}"
+                            onerror="this.onerror=null; this.src='/static/thumbnails/no_preview.jpg'"
+                            alt="{{ clip }}"
+                            class="thumbnail"
+                        >
+                        <span class="clip-title">{{ clip.replace('.mp4', '') }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Окно с видео -->
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeVideo()">&times;</span>
+            <video id="video-player" controls>
+                Ваш браузер не поддерживает видео.
+            </video>
+        </div>
+    </div>
+
+    <!-- Подвал -->
+    <footer>
+        Создано с ❤️ | Домашний игровой архив
+    </footer>
+
+    <script>
+        // Открытие видео
+        function openVideo(filename) {
+            const modal = document.getElementById('video-modal');
+            const videoPlayer = document.getElementById('video-player');
+            videoPlayer.src = `/video/${filename}`;
+            modal.style.display = 'block';
+        }
+
+        // Закрытие видео
+        function closeVideo() {
+            const modal = document.getElementById('video-modal');
+            const videoPlayer = document.getElementById('video-player');
+            videoPlayer.pause();
+            videoPlayer.src = '';
+            modal.style.display = 'none';
+        }
+
+        // Закрытие по клику вне окна
+        window.onclick = function(event) {
+            const modal = document.getElementById('video-modal');
+            if (event.target === modal) {
+                closeVideo();
+            }
+        };
+    </script>
+</body>
+</html>
