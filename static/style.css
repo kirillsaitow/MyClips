@@ -1,9 +1,9 @@
 /* Основные стили */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family:'Impact', fantasy;
     margin: 0;
     padding: 0;
-    color: #333;
+    color: #181c1f;
     background-color: #f5f5f5;
 }
 
@@ -16,21 +16,21 @@ body {
     height: 100%;
     object-fit: cover;
     z-index: -1;
-    opacity: 0.2;
+    opacity: 0.8;
 }
 
 /* Шапка */
 header {
-    background: linear-gradient(90deg, #ff9a9e 0%, #fad0c4 100%);
-    padding: 30px;
+    background: linear-gradient(90deg, #9966cc 20%, #005f9e 100%);
+    padding: 10px;
     text-align: center;
     box-shadow: 0 4px 15px rgba(255, 154, 158, 0.3);
 }
 
 h1 {
     margin: 0;
-    font-size: 2.8em;
-    color: #fff;
+    font-size: 2em;
+    color: #181c1f;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -39,7 +39,7 @@ h1 {
     max-width: 1200px;
     margin: 40px auto;
     padding: 30px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(100, 100, 100, 0.6);
     border-radius: 15px;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -50,20 +50,22 @@ ul {
     padding: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
+    gap: 18px;
 }
 
 /* Карточки клипов */
+/* Карточки клипов */
 li {
+    text-align: center; /* Центрируем текст */
+    margin: 20px 0;
+    width: 60%; /* Уменьшаем ширину превью */
+    margin-left: auto;
+    margin-right: auto;
     transition: transform 0.3s;
 }
 
-li:hover {
-    transform: translateY(-5px);
-}
-
 .thumbnail {
-    width: 100%;
+    width: 100%; /* Превью занимает всю ширину карточки */
     height: 150px;
     object-fit: cover;
     border-radius: 10px;
@@ -75,9 +77,15 @@ li:hover {
     display: block;
     margin-top: 10px;
     font-size: 1.1em;
-    color: #555;
-    text-align: center;
+    color: #181c1f;
+    text-align: center; /* Центрируем текст */
+    width: 100%; /* Занимает всю ширину карточки */
 }
+
+li:hover {
+    transform: translateY(-5px);
+}
+
 
 /* Окно с видео */
 .modal {
@@ -89,46 +97,63 @@ li:hover {
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
     z-index: 1000;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center; /* Центрирование по вертикали */
+    overflow: auto; /* Прокрутка, если окно слишком большое */
 }
 
 .modal-content {
     background: #fff;
-    padding: 20px;
-    border-radius: 10px;
+    padding: none;
+    border-radius: 12px;
     max-width: 800px;
     width: 90%;
     position: relative;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
+    border: none !important;
+    margin: 20px; /* Отступы для маленьких экранов */
 }
 
 .close {
     position: absolute;
     top: 10px;
-    right: 20px;
-    font-size: 30px;
-    color: #555;
+    right: 10px;
+    font-size: 28px;
+    color: #666;
     cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+    transition: 0.2s;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 30%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
 }
 
 .close:hover {
     color: #ff6f61;
+    background: rgba(255, 111, 97, 0.1);
 }
 
 #video-player {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 8px;
+    background: #000;
 }
 
 /* Подвал */
 footer {
     text-align: center;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.2);
     position: fixed;
     bottom: 0;
     width: 100%;
-    font-size: 0.9em;
+    font-size: 1em;
     color: #888;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.1);
 }

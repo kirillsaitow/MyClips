@@ -1,6 +1,7 @@
-from flask import Flask, render_template, send_file
 import os
-import subprocess
+
+import cv2
+from flask import Flask, render_template, send_file
 
 app = Flask(__name__)
 CLIPS_FOLDER = r"C:\Users\Кирилл\Downloads\clips"
@@ -11,26 +12,17 @@ os.makedirs(THUMBNAILS_FOLDER, exist_ok=True)
 
 
 def generate_thumbnail(video_path):
-    """Создает превью для видео"""
-    thumbnail_name = os.path.splitext(os.path.basename(video_path))[0] + '.jpg'
-    thumbnail_path = os.path.join(THUMBNAILS_FOLDER, thumbnail_name)
-
-    # Команда FFmpeg: взять кадр на 1-й секунде видео
-    command = [
-        'ffmpeg',
-        '-i', video_path,
-        '-ss', '00:00:01',
-        '-vframes', '1',
-        '-q:v', '2',
-        thumbnail_path
-    ]
-
     try:
-        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        return thumbnail_name
+        vidcap = cv2.VideoCapture(video_path)
+        success, image = vidcap.read()
+        if success:
+            thumbnail_name = os.path.splitext(os.path.basename(video_path))[0] + '.jpg'
+            thumbnail_path = os.path.join(THUMBNAILS_FOLDER, thumbnail_name)
+            cv2.imwrite(thumbnail_path, image)
+            return thumbnail_name
     except Exception as e:
-        print(f"Ошибка генерации превью: {e}")
-        return None
+        print(f"Ошибка OpenCV: {e}")
+    return None
 
 
 @app.route('/')
