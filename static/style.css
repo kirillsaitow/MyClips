@@ -1,6 +1,6 @@
 /* Основные стили */
 body {
-    font-family:'Impact', fantasy;
+    font-family: 'Impact', fantasy;
     margin: 0;
     padding: 0;
     color: #181c1f;
@@ -54,18 +54,24 @@ ul {
 }
 
 /* Карточки клипов */
-/* Карточки клипов */
 li {
-    text-align: center; /* Центрируем текст */
+    text-align: center;
     margin: 20px 0;
-    width: 60%; /* Уменьшаем ширину превью */
+    width: 60%;
     margin-left: auto;
     margin-right: auto;
     transition: transform 0.3s;
 }
 
+.clip-card {
+    position: relative;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
 .thumbnail {
-    width: 100%; /* Превью занимает всю ширину карточки */
+    width: 100%;
     height: 150px;
     object-fit: cover;
     border-radius: 10px;
@@ -78,16 +84,41 @@ li {
     margin-top: 10px;
     font-size: 1.1em;
     color: #181c1f;
-    text-align: center; /* Центрируем текст */
-    width: 100%; /* Занимает всю ширину карточки */
+    text-align: center;
+    width: 100%;
+}
+
+.clip-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.delete-form button, .clip-actions button {
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.clip-actions button {
+    background: #3498db;
+}
+
+.delete-form button:hover, .clip-actions button:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
 }
 
 li:hover {
     transform: translateY(-5px);
 }
 
-
-/* Окно с видео */
+/* Модальные окна */
 .modal {
     display: none;
     position: fixed;
@@ -97,21 +128,43 @@ li:hover {
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
     z-index: 1000;
-    justify-content: center; /* Центрирование по горизонтали */
-    align-items: center; /* Центрирование по вертикали */
-    overflow: auto; /* Прокрутка, если окно слишком большое */
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
 }
 
 .modal-content {
     background: #fff;
-    padding: none;
+    padding: 25px;
     border-radius: 12px;
     max-width: 800px;
     width: 90%;
     position: relative;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.25);
     border: none !important;
-    margin: 20px; /* Отступы для маленьких экранов */
+    margin: 20px;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: #181c1f;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.modal-content button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .close {
@@ -139,6 +192,7 @@ li:hover {
     background: rgba(255, 111, 97, 0.1);
 }
 
+/* Окно с видео */
 #video-player {
     width: 100%;
     border-radius: 8px;

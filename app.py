@@ -1,10 +1,10 @@
+from flask import request, redirect, jsonify, Flask, render_template, send_file
 import os
-
 import cv2
-from flask import Flask, render_template, send_file
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-CLIPS_FOLDER = r"C:\Users\Кирилл\Downloads\clips"
+CLIPS_FOLDER = r"E:\clips\Marvel Rivals"
 THUMBNAILS_FOLDER = os.path.join(app.static_folder, 'thumbnails')
 
 # Создаем папку для превью при запуске
@@ -45,6 +45,50 @@ def index():
 @app.route('/video/<filename>')
 def video(filename):
     return send_file(os.path.join(CLIPS_FOLDER, filename))
+
+
+@app.route('/delete/<filename>', methods=['POST'])
+def delete_file(filename):
+    # Проверка безопасности
+    safe_dir = os.path.abspath(CLIPS_FOLDER)
+    file_path = os.path.join(safe_dir, filename)
+
+    if not os.path.commonprefix([file_path, safe_dir]) == safe_dir:
+        return "Недопустимый путь", 403
+
+    # Удаление видео и превью
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        thumb_path = os.path.join(THUMBNAILS_FOLDER, filename.replace('.mp4', '.jpg'))
+        if os.path.exists(thumb_path):
+            os.remove(thumb_path)
+
+    return redirect('/')
+
+
+@app.route('/rename/<filename>', methods=['POST'])
+def rename_file(filename):
+    new_name = request.form.get('new_name')
+    if not new_name:
+        return "Новое имя не указано", 400
+
+    # Проверка безопасности
+    safe_dir = os.path.abspath(CLIPS_FOLDER)
+    old_path = os.path.join(safe_dir, filename)
+    new_path = os.path.join(safe_dir, secure_filename(new_name + '.mp4'))
+
+    if not os.path.commonprefix([old_path, safe_dir]) == safe_dir:
+        return "Недопустимый путь", 403
+
+    # Переименование видео и превью
+    if os.path.exists(old_path):
+        os.rename(old_path, new_path)
+        old_thumb = os.path.join(THUMBNAILS_FOLDER, filename.replace('.mp4', '.jpg'))
+        new_thumb = os.path.join(THUMBNAILS_FOLDER, new_name + '.jpg')
+        if os.path.exists(old_thumb):
+            os.rename(old_thumb, new_thumb)
+
+    return redirect('/')
 
 
 if __name__ == '__main__':

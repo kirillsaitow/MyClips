@@ -1,34 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MyClips</title>
+    <title>Мои игровые клипы</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <!-- Фоновое видео -->
     <video autoplay muted loop id="bg-video">
         <source src="{{ url_for('static', filename='background.mp4') }}" type="video/mp4">
     </video>
 
-    <!-- Шапка сайта -->
     <header>
-        <h1>Highlights</h1>
+        <h1>HIGHLIGHTS</h1>
     </header>
 
-    <!-- Контейнер с клипами -->
     <div class="container">
         <ul>
             {% for clip in clips %}
                 <li>
-                    <a href="#" onclick="openVideo('{{ clip }}')">
-                        <img
-                            src="{{ url_for('static', filename='thumbnails/' + clip.replace('.mp4', '.jpg')) }}"
-                            onerror="this.onerror=null; this.src='/static/thumbnails/no_preview.jpg'"
-                            alt="{{ clip }}"
-                            class="thumbnail"
-                        >
-                        <span class="clip-title">{{ clip.replace('.mp4', '') }}</span>
-                    </a>
+                    <div class="clip-card">
+                        <a href="#" onclick="openVideo('{{ clip }}')">
+                            <img
+                                src="{{ url_for('static', filename='thumbnails/' + clip.replace('.mp4', '.jpg')) }}"
+                                alt="{{ clip }}"
+                                class="thumbnail"
+                            >
+                            <span class="clip-title">{{ clip.replace('.mp4', '') }}</span>
+                        </a>
+                        <div class="clip-actions">
+                            <form action="/delete/{{ clip }}" method="POST"
+                                  onsubmit="return confirm('Удалить этот клип?')"
+                                  class="delete-form">
+                                <button type="submit">🗑️ Удалить</button>
+                            </form>
+                            <button onclick="renameClip('{{ clip }}')">✏️ Переименовать</button>
+                        </div>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
@@ -44,9 +50,21 @@
         </div>
     </div>
 
+    <!-- Окно для переименования -->
+    <div id="rename-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeRename()">&times;</span>
+            <h2></h2>
+            <form id="rename-form" method="POST">
+                <input type="text" id="new-name" name="new_name" placeholder="Новое имя" required>
+                <button type="submit"></button>
+            </form>
+        </div>
+    </div>
+
     <!-- Подвал -->
     <footer>
-        by sk
+        BY SK
     </footer>
 
     <script>
@@ -67,11 +85,29 @@
             modal.style.display = 'none';
         }
 
+        // Открытие окна переименования
+        function renameClip(filename) {
+            const modal = document.getElementById('rename-modal');
+            const form = document.getElementById('rename-form');
+            form.action = `/rename/${filename}`;
+            modal.style.display = 'block';
+        }
+
+        // Закрытие окна переименования
+        function closeRename() {
+            const modal = document.getElementById('rename-modal');
+            modal.style.display = 'none';
+        }
+
         // Закрытие по клику вне окна
         window.onclick = function(event) {
-            const modal = document.getElementById('video-modal');
-            if (event.target === modal) {
+            const videoModal = document.getElementById('video-modal');
+            const renameModal = document.getElementById('rename-modal');
+            if (event.target === videoModal) {
                 closeVideo();
+            }
+            if (event.target === renameModal) {
+                closeRename();
             }
         };
     </script>
