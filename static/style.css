@@ -47,17 +47,17 @@ h1 {
 
 ul {
     list-style: none;
-    padding: 0;
+    padding: 10px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
 }
 
 /* Карточки клипов */
 li {
     text-align: center;
-    margin: 20px 0;
-    width: 60%;
+    margin: 20px 20px;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
     transition: transform 0.3s;
@@ -99,14 +99,14 @@ li {
     background: #ff4757;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 8px 20px;
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
 }
 
 .clip-actions button {
-    background: #3498db;
+    background: #7f4870;
 }
 
 .delete-form button:hover, .clip-actions button:hover {
@@ -135,7 +135,7 @@ li:hover {
 
 .modal-content {
     background: #fff;
-    padding: 25px;
+    padding: none;
     border-radius: 12px;
     max-width: 800px;
     width: 90%;
@@ -151,7 +151,7 @@ li:hover {
 }
 
 .modal-content input {
-    width: 100%;
+    width: 80%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
