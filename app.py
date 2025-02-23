@@ -1,6 +1,7 @@
-from flask import request, redirect, jsonify, Flask, render_template, send_file
+from flask import Flask, render_template, send_file, request, redirect
 import os
-import cv2
+import subprocess
+
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
@@ -12,17 +13,26 @@ os.makedirs(THUMBNAILS_FOLDER, exist_ok=True)
 
 
 def generate_thumbnail(video_path):
+    """Создает превью для видео с помощью FFmpeg"""
+    thumbnail_name = os.path.splitext(os.path.basename(video_path))[0] + '.jpg'
+    thumbnail_path = os.path.join(THUMBNAILS_FOLDER, thumbnail_name)
+
+    # Команда FFmpeg: взять кадр на 1-й секунде видео
+    command = [
+        'ffmpeg',
+        '-i', video_path,
+        '-ss', '00:00:01',  # Время для кадра (1 секунда)
+        '-vframes', '1',  # Количество кадров (1)
+        '-q:v', '2',  # Качество превью (1-31, где 1 — лучшее)
+        thumbnail_path
+    ]
+
     try:
-        vidcap = cv2.VideoCapture(video_path)
-        success, image = vidcap.read()
-        if success:
-            thumbnail_name = os.path.splitext(os.path.basename(video_path))[0] + '.jpg'
-            thumbnail_path = os.path.join(THUMBNAILS_FOLDER, thumbnail_name)
-            cv2.imwrite(thumbnail_path, image)
-            return thumbnail_name
+        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        return thumbnail_name
     except Exception as e:
-        print(f"Ошибка OpenCV: {e}")
-    return None
+        print(f"Ошибка FFmpeg: {e}")
+        return None
 
 
 @app.route('/')
