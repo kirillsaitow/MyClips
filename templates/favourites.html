@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Избранное{% endblock %}
+{% block content %}
+<div class="container">
+    <header>
+        <h1>★ Избранные клипы</h1>
+    </header>
+
+    <ul class="clips-grid">
+        {% for clip in clips %}
+        <li class="clip-card" data-filename="{{ clip.filename }}">
+            <div class="thumbnail-container">
+                <img loading="lazy"
+                     src="{{ url_for('static', filename='thumbnails/' + clip.filename.replace('.mp4', '.webp')) }}"
+                     alt="{{ clip.filename }}"
+                     class="thumbnail"
+                     onclick="openVideo('{{ clip.filename }}')">
+                <button class="favorite-btn active"
+                        onclick="toggleFavorite('{{ clip.filename }}')">
+                    ★
+                </button>
+            </div>
+            <div class="clip-info">
+                <span class="clip-title">{{ clip.filename.replace('.mp4', '') }}</span>
+                <div class="clip-meta">
+                    <span>{{ clip.created }}</span>
+                    <span>{{ (clip.size / 1024 / 1024)|round(2) }} MB</span>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

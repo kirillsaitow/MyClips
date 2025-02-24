@@ -1,0 +1,474 @@
+:root {
+    --sidebar-width: 280px;
+    --primary: #6a11ff;
+    --dark-bg: #1a1a2e;
+    --light: #f8f9fa;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    justify-content: center;
+    background: linear-gradient(to right, var(--dark-bg), #16213e);
+    color: var(--light);
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: var(--sidebar-width);
+    background: var(--dark-bg);
+    padding: 20px;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar.collapsed {
+    transform: translateX(-90%);
+}
+
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 30px;
+    min-height: 100vh;
+    transition: margin 0.3s ease;
+}
+
+/* Стили для плиток */
+.clips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+/* Стили для списка */
+.clips-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.clips-list .clip-card {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+}
+
+.clips-list .thumbnail-container {
+    width: 150px;
+    height: 100px;
+    margin-right: 1rem;
+}
+
+.clips-list .clip-info {
+    flex-grow: 1;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.search-bar {
+    display: block;
+    top: 5%;
+    right: 5%;
+    justify-content: center;
+    margin-bottom: 1rem;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.search-bar input {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: none;
+    width: 300px;
+}
+
+.search-bar button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 0.5rem;
+}
+
+
+.clip-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.clip-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.thumbnail-container {
+    position: relative;
+    aspect-ratio: 16/9;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.favorite-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    color: #ffd700;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.favorite-btn.active {
+    background: #ffd700;
+    color: #000;
+}
+
+.editor-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-top: 2rem;
+}
+
+.time-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+@media (max-width: 768px) {
+    .clips-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        padding: 1rem;
+        margin: 1rem;
+    }
+}
+
+
+/* Боковое меню */
+
+.sidebar.collapsed {
+    transform: translateX(-90%);
+}
+
+.sidebar .logo {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li a {
+    display: block;
+    padding: 15px;
+    margin: 10px 0;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar li a.active {
+    background: var(--primary);
+    box-shadow: 0 4px 15px rgba(106, 17, 255, 0.3);
+}
+
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .menu-toggle {
+        display: block;
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+}
+
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 30px;
+    min-height: 100vh;
+    transition: margin 0.3s ease;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+.collapse-btn {
+    position: absolute;
+    right: -32px;
+    top: 17px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+
+.main-content.expanded {
+    margin-left: 0;
+}
+
+/* Видеоплеер */
+
+#video-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+}
+
+#video-modal .modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 800px;
+    background: #000;
+}
+
+#video-player {
+    width: 100%;
+    height: auto;
+    max-height: 80vh;
+    outline: none;
+}
+
+.modal-content {
+    position: relative;
+    margin: 5% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    background: #000;
+    border-radius: 8px;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+}
+
+
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    color: #fff;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* Превью */
+.thumbnail-container {
+    position: relative;
+    aspect-ratio: 16/9;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.thumbnail:hover {
+    transform: scale(1.05);
+}
+
+/* Кнопки */
+.clip-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+    justify-content: center;
+
+}
+
+.clip-actions button {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: stretch ;
+    justify-content: center;
+    gap: 6px;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.clip-actions button:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+/* Иконки */
+.fa-trash, .fa-edit {
+    pointer-events: none;
+}
+
+/* Логотип */
+.logo-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.logo {
+    width: 160px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: rotate(-5deg) scale(1.1);
+}
+
+/* Анимация переключения видов */
+.hidden-view {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    display: none;
+}
+
+.clips-grid, .clips-list {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+/* Кнопки переключения вида */
+.view-btn.active {
+    box-shadow: 0 4px 15px rgba(106,17,255,0.3);
+}
+
+.clip-title {
+    font: 400 1rem "Roboto-Bold", sans-serif;
+    font-variant: titling-caps;
+    font-weight: bold;
+    display: block;
+    justify-content: center;
+    text-align: center;
+    line-height: 2.5;
+
+}
+.clip-info {
+    display: inline;
+    justify-content: center;
+    text-align: center;
+}
+
+.view-btn {
+    margin-inline-end: 3px;
+    margin-top: 5px;
+    padding-bottom: 4px;
+    padding-inline-start: 12px;
+    padding-inline-end: 12px;
+    padding-top: 4px;
+    box-shadow: 0 4px 15px rgba(106,17,255,0.3);
+
+}

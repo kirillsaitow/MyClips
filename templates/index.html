@@ -1,115 +1,59 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Мои игровые клипы</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <video autoplay muted loop id="bg-video">
-        <source src="{{ url_for('static', filename='background.mp4') }}" type="video/mp4">
-    </video>
-
+{% extends "base.html" %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+<div class="container">
     <header>
-        <h1>HIGHLIGHTS</h1>
+        <h1>All clips</h1>
+        <div class="controls">
+            <label for="search"></label><input type="text" id="search"
+                                               placeholder="Search..."
+                                               value="{{ search_query }}"
+                                               onkeypress="if(event.keyCode === 13) searchClips()">
+            <div class="view-toggle">
+                <button class="view-btn {% if view_mode == 'grid' %}active{% endif %}"
+                        data-mode="grid"
+                        onclick="changeViewMode('grid')">
+                    <i class="fas fa-th-large"></i>
+                </button>
+                <button class="view-btn {% if view_mode == 'list' %}active{% endif %}"
+                        data-mode="list"
+                        onclick="changeViewMode('list')">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+        </div>
     </header>
 
-    <div class="container">
-        <ul>
-            {% for clip in clips %}
-                <li>
-                    <div class="clip-card">
-                        <a href="#" onclick="openVideo('{{ clip }}')">
-                            <img
-                                src="{{ url_for('static', filename='thumbnails/' + clip.replace('.mp4', '.jpg')) }}"
-                                alt="{{ clip }}"
-                                class="thumbnail"
-                            >
-                            <span class="clip-title">{{ clip.replace('.mp4', '') }}</span>
-                        </a>
-                        <div class="clip-actions">
-                            <form action="/delete/{{ clip }}" method="POST"
-                                  onsubmit="return confirm('Удалить этот клип?')"
-                                  class="delete-form">
-                                <button type="submit">🗑️ Удалить</button>
-                            </form>
-                            <button onclick="renameClip('{{ clip }}')">✏️ Переименовать</button>
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
-    </div>
-
-    <!-- Окно с видео -->
-    <div id="video-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeVideo()">&times;</span>
-            <video id="video-player" controls>
-                Ваш браузер не поддерживает видео.
-            </video>
-        </div>
-    </div>
-
-    <!-- Окно для переименования -->
-    <div id="rename-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeRename()">&times;</span>
-            <h2></h2>
-            <form id="rename-form" method="POST">
-                <input type="text" id="new-name" name="new_name" placeholder="Новое имя" required>
-                <button type="submit"></button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Подвал -->
-    <footer>
-        BY SK
-    </footer>
-
-    <script>
-        // Открытие видео
-        function openVideo(filename) {
-            const modal = document.getElementById('video-modal');
-            const videoPlayer = document.getElementById('video-player');
-            videoPlayer.src = `/video/${filename}`;
-            modal.style.display = 'block';
-        }
-
-        // Закрытие видео
-        function closeVideo() {
-            const modal = document.getElementById('video-modal');
-            const videoPlayer = document.getElementById('video-player');
-            videoPlayer.pause();
-            videoPlayer.src = '';
-            modal.style.display = 'none';
-        }
-
-        // Открытие окна переименования
-        function renameClip(filename) {
-            const modal = document.getElementById('rename-modal');
-            const form = document.getElementById('rename-form');
-            form.action = `/rename/${filename}`;
-            modal.style.display = 'block';
-        }
-
-        // Закрытие окна переименования
-        function closeRename() {
-            const modal = document.getElementById('rename-modal');
-            modal.style.display = 'none';
-        }
-
-        // Закрытие по клику вне окна
-        window.onclick = function(event) {
-            const videoModal = document.getElementById('video-modal');
-            const renameModal = document.getElementById('rename-modal');
-            if (event.target === videoModal) {
-                closeVideo();
-            }
-            if (event.target === renameModal) {
-                closeRename();
-            }
-        };
-    </script>
-</body>
-</html>
+    <ul class="clips-{{ view_mode }}">
+        {% for clip in clips %}
+        <li class="clip-card">
+            <div class="thumbnail-container" onclick="openVideo('{{ clip.filename }}')">
+                <img loading="lazy"
+                     src="{{ url_for('static', filename='thumbnails/' + clip.thumbnail) }}"
+                     alt="{{ clip.filename }}"
+                     class="thumbnail">
+                <button class="favorite-btn {% if clip.filename in favorites %}active{% endif %}"
+                        onclick="event.stopPropagation(); toggleFavorite('{{ clip.filename }}')">
+                    ★
+                </button>
+            </div>
+            <div class="clip-info">
+                <span class="clip-title">{{ clip.filename.replace('.mp4', '') }}</span>
+                <div class="clip-meta">
+                    <span>{{ clip.created }}</span>
+                    <span>{{ (clip.size / 1024 / 1024)|round(2) }} MB</span>
+                </div>
+                <div class="clip-actions">
+                    <button onclick="event.stopPropagation(); confirmDelete('{{ clip.filename }}')">
+                        <i class="fas fa-trash"></i> Удалить
+                    </button>
+                    <button onclick="event.stopPropagation(); showRenameForm('{{ clip.filename }}')">
+                        <i class="fas fa-edit"></i> Переименовать
+                    </button>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

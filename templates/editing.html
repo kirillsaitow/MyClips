@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Редактор{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="editor-container">
+        <h1>✂️ Редактор видео</h1>
+        <div class="video-editor">
+            <input type="file" id="video-upload" accept="video/*">
+            <div class="video-preview">
+                <video id="editor-video" controls></video>
+                <div class="range-slider">
+                    <input type="range" id="start-slider" min="0" max="100" value="0">
+                    <input type="range" id="end-slider" min="0" max="100" value="100">
+                </div>
+            </div>
+            <button id="save-edit">Сохранить изменения</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

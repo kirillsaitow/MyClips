@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameClip Studio | {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<nav class="sidebar">
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='images/logotip.png') }}"
+             alt="GameClip Studio"
+             class="logo">
+    </div>
+    <button class="collapse-btn" onclick="toggleSidebar()">☰</button>
+    <ul>
+        <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Все клипы</a></li>
+        <li><a href="/favourites" class="{% if request.path == '/favourites' %}active{% endif %}">Избранное ★</a></li>
+    </ul>
+</nav>
+
+<div class="main-content">
+    {% block content %}{% endblock %}
+</div>
+
+<div id="video-modal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeVideo()">&times;</span>
+        <video id="video-player" controls>
+            Ваш браузер не поддерживает воспроизведение видео.
+        </video>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
