@@ -27,7 +27,38 @@ body {
 }
 
 .sidebar.collapsed {
-    transform: translateX(-90%);
+    transform: translateX(-98%);
+}
+
+
+.sidebar .logo {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li a {
+    display: block;
+    padding: 15px;
+    margin: 10px 0;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.sidebar li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar li a.active {
+    background: var(--primary);
+    box-shadow: 0 4px 15px rgba(106, 17, 255, 0.3);
 }
 
 .main-content {
@@ -88,37 +119,9 @@ h1 {
     margin-bottom: 1rem;
 }
 
-.search-bar {
-    display: block;
-    top: 5%;
-    right: 5%;
-    justify-content: center;
-    margin-bottom: 1rem;
-    padding-top: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.search-bar input {
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: none;
-    width: 300px;
-}
-
-.search-bar button {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 0.5rem;
-}
-
-
 .clip-card {
     background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -129,7 +132,7 @@ h1 {
 
 .clip-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    box-shadow:0 8px 32px darkslateblue;
 }
 
 .thumbnail-container {
@@ -146,21 +149,33 @@ h1 {
 
 .favorite-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.7);
+    top: 8px;
+    right: 8px;
+    z-index: 2;
+    background: rgba(0,0,0,0.7);
     border: none;
     color: #ffd700;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 30px;
+    font-size: 18px;
 }
 
 .favorite-btn.active {
     background: #ffd700;
     color: #000;
+    transform: scale(0.9);
+}
+
+.favorite-btn:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(255,215,0,0.5);
 }
 
 .editor-container {
@@ -186,43 +201,6 @@ h1 {
         padding: 1rem;
         margin: 1rem;
     }
-}
-
-
-/* Боковое меню */
-
-.sidebar.collapsed {
-    transform: translateX(-90%);
-}
-
-.sidebar .logo {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar li a {
-    display: block;
-    padding: 15px;
-    margin: 10px 0;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.sidebar li a:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.sidebar li a.active {
-    background: var(--primary);
-    box-shadow: 0 4px 15px rgba(106, 17, 255, 0.3);
 }
 
 
@@ -278,15 +256,17 @@ h1 {
 
 .collapse-btn {
     position: absolute;
-    right: -32px;
-    top: 17px;
-    background: var(--primary);
+    overflow: hidden;
+    right: -25%;
+    top: 1%;
+    background: transparent;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 4% 4%;
     border-radius: 5px;
     cursor: pointer;
     z-index: 1001;
+    font-size: 18px;
 }
 
 
@@ -345,8 +325,8 @@ h1 {
 
 .close {
     position: absolute;
-    right: 20px;
-    top: 20px;
+    right: 26px;
+    top: 14px;
     color: #fff;
     font-size: 28px;
     font-weight: bold;
@@ -378,7 +358,7 @@ h1 {
 .clip-actions {
     margin-top: 10px;
     display: flex;
-    gap: 8px;
+    gap: 2%;
     align-items: stretch;
     justify-content: center;
 
@@ -388,16 +368,16 @@ h1 {
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.3);
     color: #fff;
-    padding: 8px 20px;
-    border-radius: 4px;
+    padding: 2% 9.4%;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: stretch ;
     justify-content: center;
-    gap: 6px;
+    gap: 7%;
     font-size: 14px;
-    margin-bottom: 5px;
+    margin-bottom: 2%;
 }
 
 .clip-actions button:hover {
@@ -471,4 +451,107 @@ h1 {
     padding-top: 4px;
     box-shadow: 0 4px 15px rgba(106,17,255,0.3);
 
+}
+
+.main-header {
+    position: sticky;
+    top: 2%;
+    z-index: 20;
+    overflow: hidden;
+    left: var(--sidebar-width);
+    right: 0;
+    background: transparent 0;
+    transition: left 0.3s ease;
+}
+
+.search-container {
+    max-width: 800px;
+    margin-left: 15%;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    position: relative;
+}
+
+#search {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+#search:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary);
+    background: rgba(255,255,255,0.15);
+}
+
+.search-btn {
+    background: var(--primary);
+    border: none;
+    margin-block-start: 2px;
+    width: 45px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.search-btn:hover {
+    transform: scale(0.9);
+}
+
+.clips-list .clip-card {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    padding: 15px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+}
+
+.clips-list .thumbnail-container {
+    height: 120px;
+}
+
+.clips-list .clip-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.clips-container {
+    margin-top: 80px;
+    transition: opacity 0.3s ease;
+}
+
+.clip-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.favorite-btn {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+:root {
+    --sidebar-width: 280px;
+}
+
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding-top: 80px;
+}
+
+@media (max-width: 768px) {
+    .main-header {
+        left: 0;
+    }
 }

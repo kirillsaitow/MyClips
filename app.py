@@ -141,17 +141,28 @@ def add_header(response):
 @app.route('/favorite', methods=['POST'])
 def toggle_favorite():
     filename = request.json.get('filename')
+    if not filename:
+        return jsonify({'status': 'error', 'message': 'Filename is required'}), 400
+
     favorites = request.cookies.get('favorites', '').split(',')
+    favorites = [f for f in favorites if f]  # Убираем пустые значения
 
     if filename in favorites:
         favorites.remove(filename)
+        status = 'removed'
     else:
         favorites.append(filename)
+        status = 'added'
 
-    response = jsonify({'status': 'success'})
-    response.set_cookie('favorites', ','.join(favorites))
+    response = jsonify({
+        'status': 'success',
+        'action': status,
+        'filename': filename,
+        'favorites': favorites
+    })
+
+    response.set_cookie('favorites', ','.join(favorites), max_age=30*24*60*60)
     return response
-
 
 @app.route('/view_mode', methods=['POST'])
 def change_view_mode():

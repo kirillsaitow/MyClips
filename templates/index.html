@@ -2,27 +2,36 @@
 {% block title %}Главная{% endblock %}
 {% block content %}
 <div class="container">
-    <header>
-        <h1>All clips</h1>
-        <div class="controls">
-            <label for="search"></label><input type="text" id="search"
-                                               placeholder="Search..."
-                                               value="{{ search_query }}"
-                                               onkeypress="if(event.keyCode === 13) searchClips()">
-            <div class="view-toggle">
-                <button class="view-btn {% if view_mode == 'grid' %}active{% endif %}"
-                        data-mode="grid"
-                        onclick="changeViewMode('grid')">
-                    <i class="fas fa-th-large"></i>
-                </button>
-                <button class="view-btn {% if view_mode == 'list' %}active{% endif %}"
-                        data-mode="list"
-                        onclick="changeViewMode('list')">
-                    <i class="fas fa-list"></i>
+    <header class="main-header">
+        <div class="search-container">
+            <div class="search-box">
+                <label for="search"></label><input type="text"
+                                                   id="search"
+                                                   placeholder="Поиск клипов..."
+                                                   value="{{ search_query }}"
+                                                   onkeyup="if(event.key === 'Enter') searchClips()">
+                <button class="search-btn" onclick="searchClips()">
+                    <i class="fas fa-search"></i>
                 </button>
             </div>
         </div>
     </header>
+<!--    <header>-->
+<!--        <div class="controls">-->
+<!--            <div class="view-toggle">-->
+<!--                <button class="view-btn {% if view_mode == 'grid' %}active{% endif %}"-->
+<!--                        data-mode="grid"-->
+<!--                        onclick="changeViewMode('grid')">-->
+<!--                    <i class="fas fa-th-large"></i>-->
+<!--                </button>-->
+<!--                <button class="view-btn {% if view_mode == 'list' %}active{% endif %}"-->
+<!--                        data-mode="list"-->
+<!--                        onclick="changeViewMode('list')">-->
+<!--                    <i class="fas fa-list"></i>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </header>-->
 
     <ul class="clips-{{ view_mode }}">
         {% for clip in clips %}
@@ -33,8 +42,8 @@
                      alt="{{ clip.filename }}"
                      class="thumbnail">
                 <button class="favorite-btn {% if clip.filename in favorites %}active{% endif %}"
-                        onclick="event.stopPropagation(); toggleFavorite('{{ clip.filename }}')">
-                    ★
+                        onclick="toggleFavorite('{{ clip.filename }}', event)">
+                    {% if clip.filename in favorites %}★{% else %}☆{% endif %}
                 </button>
             </div>
             <div class="clip-info">

@@ -14,36 +14,62 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
 });
 
 // Избранное
-function toggleFavorite(filename) {
-    const btn = document.querySelector(`.clip-card[data-filename="${filename}"] .favorite-btn`);
+async function toggleFavorite(filename, event) {
+    event.stopPropagation();
+    const btn = event.target.closest('.favorite-btn');
 
-    fetch('/favorite', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ filename: filename })
-    })
-        .then(response => {
-            if(response.ok) {
-                btn.classList.toggle('active');
-            }
+    try {
+        const response = await fetch('/favorite', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({filename: filename})
         });
+
+        const data = await response.json();
+
+        if(data.status === 'success') {
+            btn.classList.toggle('active', data.action === 'added');
+            btn.textContent = data.action === 'added' ? '★' : '☆';
+
+            // Обновляем счетчик избранного
+            const favoritesCount = document.querySelector('.favorites-count');
+            if(favoritesCount) {
+                favoritesCount.textContent = data.favorites.length;
+            }
+        }
+    } catch(error) {
+        console.error('Ошибка:', error);
+    }
 }
 
-function changeViewMode(mode) {
-    document.cookie = `view_mode=${mode}; path=/`;
-    document.querySelectorAll('.clips-grid, .clips-list').forEach(el => {
-        el.classList.add('hidden-view');
-    });
-    document.querySelector(`.clips-${mode}`).classList.remove('hidden-view');
+// Инициализация состояния кнопок при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    const favorites = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('favorites='))
+        ?.split('=')[1]
+        ?.split(',') || [];
 
-    // Обновляем активные кнопки
-    document.querySelectorAll('.view-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if(btn.dataset.mode === mode) btn.classList.add('active');
+    favorites.forEach(filename => {
+        const btn = document.querySelector(`.clip-card[data-filename="${filename}"] .favorite-btn`);
+        if(btn) {
+            btn.classList.add('active');
+            btn.textContent = '★';
+        }
     });
-}
+});
+
+// function changeViewMode(mode) {
+//     const container = document.querySelector('.clips-container');
+//     container.className = `clips-container clips-${mode}`;
+//
+//     document.cookie = `view_mode=${mode}; path=/; max-age=2592000`;
+//
+//     // Обновление активных кнопок
+//     document.querySelectorAll('.view-btn').forEach(btn => {
+//         btn.classList.toggle('active', btn.dataset.mode === mode);
+//     });
+// }
 
 // Поиск
 function searchClips() {
@@ -167,3 +193,11 @@ function toggleSidebar() {
     mainContent.classList.toggle('expanded');
 }
 
+// Обработчики закрытия видео
+document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') closeVideo();
+});
+
+document.getElementById('video-modal').addEventListener('click', (e) => {
+    if(e.target === document.getElementById('video-modal')) closeVideo();
+});
