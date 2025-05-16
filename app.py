@@ -5,10 +5,11 @@ from flask import Flask, render_template, send_file, request, redirect, jsonify
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'
+app.secret_key = 'very_secret_key'
 
 # Конфигурация
-CLIPS_FOLDER = r'C:\Users\Кирилл\Downloads\clips'
+# CLIPS_FOLDER = r'E:\clips\MarvelRivals'
+CLIPS_FOLDER = r"C:\Users\Кирилл\WebstormProjects\MyClips\Users\Кирилл\Downloads\clips"
 THUMBNAILS_FOLDER = os.path.join(app.static_folder, 'thumbnails')
 ALLOWED_EXTENSIONS = {'mp4', 'avi', 'mov', 'mkv'}
 
